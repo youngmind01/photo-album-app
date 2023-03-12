@@ -44,22 +44,22 @@ def registerUser(request):
     return render(request, 'photos/login_register.html', context)
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def gallery(request):
     user = request.user
     category = request.GET.get('category')
     if category == None:
-        photos = Photo.objects.filter(category__user=user)
+        photos = Photo.objects.all()
     else:
         photos = Photo.objects.filter(
-            category__name=category, category__user=user)
+            category__name=category)
 
-    categories = Category.objects.filter(user=user)
+    categories = Category.objects.all()
     context = {'categories': categories, 'photos': photos}
     return render(request, 'photos/gallery.html', context)
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def viewPhoto(request, pk):
     photo = Photo.objects.get(id=pk)
     return render(request, 'photos/photo.html', {'photo': photo})
